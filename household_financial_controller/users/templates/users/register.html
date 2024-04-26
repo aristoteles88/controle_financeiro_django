@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <h2>Register</h2>
+        <form id="registerForm" action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" id="firstName" name="first_name" placeholder="First Name" value="{{ form_data.first_name }}" required>
+            <input type="text" id="lastName" name="last_name" placeholder="Last Name" value="{{ form_data.last_name }}" required>
+<!--            <input type="text" id="cpf" name="cpf" placeholder="CPF" value="{{ form_data.cpf }}" required>-->
+<!--            <div id="cpfError" class="error"></div>-->
+            <input type="text" id="email" name="email" placeholder="Email" value="{{ form_data.email }}" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <input type="password" id="confirmPassword" name="confirm_password" placeholder="Confirm Password" required>
+            <div id="passwordError" class="error"></div>
+            <button type="submit">Register</button>
+        </form>
+
+        <div class="cancel">
+            <a href="{% url 'login' %}">
+                <button class="cancel">Go Back</button>
+            </a>
+        </div>
+    </div>
+    <script>
+<!--        $(document).ready(function(){-->
+<!--            // Apply mask to CPF field-->
+<!--            $('#cpf').mask('000.000.000-00', {reverse: true});-->
+<!--        });-->
+
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+<!--            var cpfInput = document.getElementById('cpf');-->
+            var confirmPasswordInput = document.getElementById('confirmPassword');
+            var passwordInput = document.getElementById('password');
+<!--            var cpfError = document.getElementById('cpfError');-->
+            var passwordError = document.getElementById('passwordError');
+<!--            var cpfOK = false;-->
+            var passwordOK = false;
+
+<!--            // Validate CPF is formatted as XXX.XXX.XXX-XX-->
+<!--            var cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;-->
+<!--            if (!cpfRegex.test(cpfInput.value)) {-->
+<!--                cpfError.textContent = "Invalid CPF format (e.g., 123.456.789-00)";-->
+<!--                event.preventDefault();-->
+<!--            } else {-->
+<!--                cpfError.textContent = "";-->
+<!--                cpfOK = true;-->
+<!--            }-->
+
+            // Check if passwords match
+
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                passwordError.textContent = "Passwords do not match";
+                event.preventDefault();
+            } else {
+                passwordError.textContent = "";
+                passwordOK = true;
+            }
+
+<!--            if (cpfOK && passwordOK) {-->
+<!--                cpfInput.value = cpfInput.value.replace(/\D/g, '');-->
+<!--            }-->
+
+
+        });
+    </script>
+</body>
+</html>
