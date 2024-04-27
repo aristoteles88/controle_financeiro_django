@@ -29,9 +29,8 @@ def register_view(request):
     """
     if request.method == 'POST':
         form = UserForm(request.POST)
-        print(form.data)
         if form.is_valid():
-            user = User.objects.create_superuser(
+            user = User.objects.create_user(
                 username=form.data['email'],
                 email=form.data['email'],
                 password=form.data['password'],
